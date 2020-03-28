@@ -1,6 +1,6 @@
 from requests.auth import HTTPBasicAuth
 from requests import get, put, post, delete
-from settings import TEST_URI, TEST_LOGIN, TEST_PASSWORD, RESET_URI, GET_UTI, EDIT_URI
+from settings import TEST_URI, TEST_LOGIN, TEST_PASSWORD, RESET_URI, GET_UTI, EDIT_URI, logging
 
 
 def send_request(method, request_data=None):
@@ -12,9 +12,9 @@ def send_request(method, request_data=None):
     }.get(method)
     sending_args["url"] = f"{TEST_URI}{GET_UTI if not request_data else EDIT_URI}"
     sending_args['auth'] = HTTPBasicAuth(TEST_LOGIN, TEST_PASSWORD)
-    print(f'sending params > {sending_args}')
+    logging.info(f'sending params > {sending_args}')
     response = method(**sending_args)
-    print(f'incoming response < {sending_args}')
+    logging.info(f'incoming response < {response.json()}')
     return response
 
 

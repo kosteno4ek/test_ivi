@@ -1,8 +1,15 @@
 # test_ivi
 
 
-Для запуска необходимо выполнить команду:
-pytest
+Для запуска необходимо: 
+- Собрать докер контейнер командой, задав параметры окружения LOGIN и PASSWORD: 
+
+docker build -t test_ivi --build-arg LOGIN=${LOGIN} --build-arg PASSWORD=${PASSWORD} .
+
+- Запустить контейнер командой:
+
+docker run --rm test_ivi
+
 
 При тестировании проверены следующие позитивне сценарии:
 

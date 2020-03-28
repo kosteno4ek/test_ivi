@@ -1,4 +1,8 @@
+import logging
+import sys
 from os import environ
+
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 TEST_URI = "http://rest.test.ivi.ru/v2"
 
