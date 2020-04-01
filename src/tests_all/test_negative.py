@@ -1,8 +1,8 @@
+import pytest
 from copy import copy
 from pytest_bdd import scenario, given, when, then
 from requests import get, put, post, delete
 from src.utils.request_sender import send_request, reset_service_data
-from src.utils.test_data import character_data
 
 
 def setup():
@@ -100,6 +100,23 @@ def delete_wrong_character(context):
 def validate_not_existing_update_response(context):
     response_error = context.service_response.json().get('error')
     assert response_error == "No such name"
+
+
+@pytest.mark.parametrize("sending_value", [
+    "%:!",
+    "",
+    0
+])
+def test_wrong_data_type(sending_value):
+    sending_data = {'name': sending_value}
+    service_response = send_request(put, request_data=sending_data)
+    response_error = service_response.json().get('error')
+    error_type = {
+        "%:!": 'No such name',
+        "": "name: ['Length must be between 1 and 350.']",
+        0: "name: ['Not a valid string.']"
+    }.get(sending_value)
+    assert error_type == response_error
 
 
 def teardown():
