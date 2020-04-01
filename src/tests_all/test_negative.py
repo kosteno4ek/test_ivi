@@ -49,16 +49,16 @@ def test_add_character_full_db(context):
 
 
 @given('add five hundred characters')
-def add_full_db():
-    sending_data = copy(character_data)
+def add_full_db(new_character):
+    sending_data = copy(new_character)
     for character_seq in range(500):
-        sending_data['name'] = f"{character_data['name']}_{character_seq}"
+        sending_data['name'] = f"{new_character['name']}_{character_seq}"
         send_request(post, request_data=sending_data)
 
 
 @when('send request about adding character')
-def send_adding_request(context):
-    context.service_response = send_request(post, request_data=character_data)
+def send_adding_request(context, new_character):
+    context.service_response = send_request(post, request_data=new_character)
 
 
 @then('validate db error in response')
@@ -73,8 +73,8 @@ def test_add_character_not_all_fields(context):
 
 
 @when('send request about adding character with partial data')
-def send_add_partial_data(context):
-    sending_data = copy(character_data)
+def send_add_partial_data(context, new_character):
+    sending_data = copy(new_character)
     sending_data.pop("name")
     context.service_response = send_request(post, request_data=sending_data)
 
